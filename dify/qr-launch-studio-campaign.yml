@@ -1,0 +1,447 @@
+app:
+  description: "QR Launch Studio ke liye minimal Dify workflow. Ye local business campaign inputs lekar structured brief, Ace search query, generation prompts, captions, CTA, aur X post draft banata hai."
+  icon: ""
+  icon_background: "#D9F5FF"
+  mode: "workflow"
+  name: "qr-launch-studio-campaign"
+  use_icon_as_answer_icon: false
+dependencies: []
+kind: "app"
+version: "0.3.0"
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      enabled: false
+      allowed_file_extensions: []
+      allowed_file_types: []
+      allowed_file_upload_methods: []
+      fileUploadConfig:
+        audio_file_size_limit: 0
+        batch_count_limit: 0
+        file_size_limit: 0
+        image_file_size_limit: 0
+        video_file_size_limit: 0
+        workflow_file_upload_limit: 0
+      image:
+        enabled: false
+        number_limits: 0
+        transfer_methods: []
+      number_limits: 0
+    opening_statement: ""
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ""
+      voice: ""
+  graph:
+    edges:
+      - id: "start_to_search_query"
+        source: "start_node"
+        sourceHandle: "source"
+        target: "search_query_node"
+        targetHandle: "target"
+        type: "custom"
+        data:
+          isInIteration: false
+          isInLoop: false
+          sourceType: "start"
+          targetType: "code"
+      - id: "search_query_to_brief"
+        source: "search_query_node"
+        sourceHandle: "source"
+        target: "brief_generator_node"
+        targetHandle: "target"
+        type: "custom"
+        data:
+          isInIteration: false
+          isInLoop: false
+          sourceType: "code"
+          targetType: "llm"
+      - id: "brief_to_prompt_optimizer"
+        source: "brief_generator_node"
+        sourceHandle: "source"
+        target: "prompt_optimizer_node"
+        targetHandle: "target"
+        type: "custom"
+        data:
+          isInIteration: false
+          isInLoop: false
+          sourceType: "llm"
+          targetType: "llm"
+      - id: "prompt_optimizer_to_publisher"
+        source: "prompt_optimizer_node"
+        sourceHandle: "source"
+        target: "publisher_node"
+        targetHandle: "target"
+        type: "custom"
+        data:
+          isInIteration: false
+          isInLoop: false
+          sourceType: "llm"
+          targetType: "llm"
+      - id: "publisher_to_end"
+        source: "publisher_node"
+        sourceHandle: "source"
+        target: "end_node"
+        targetHandle: "target"
+        type: "custom"
+        data:
+          isInIteration: false
+          isInLoop: false
+          sourceType: "llm"
+          targetType: "end"
+    nodes:
+      - data:
+          desc: "Campaign inputs for QR Launch Studio."
+          selected: false
+          title: "Start"
+          type: "start"
+          variables:
+            - label: "Business Name"
+              max_length: 120
+              options: []
+              required: true
+              type: "text-input"
+              variable: "business_name"
+            - label: "Offer Details"
+              max_length: 500
+              options: []
+              required: true
+              type: "paragraph"
+              variable: "offer_details"
+            - label: "City"
+              max_length: 120
+              options: []
+              required: true
+              type: "text-input"
+              variable: "city"
+            - label: "Website or WhatsApp Link"
+              max_length: 300
+              options: []
+              required: true
+              type: "text-input"
+              variable: "link"
+            - label: "Visual Style"
+              max_length: 160
+              options: []
+              required: true
+              type: "text-input"
+              variable: "visual_style"
+          x-outputs:
+            - name: "business_name"
+              type: "string"
+            - name: "offer_details"
+              type: "string"
+            - name: "city"
+              type: "string"
+            - name: "link"
+              type: "string"
+            - name: "visual_style"
+              type: "string"
+        height: 202
+        id: "start_node"
+        position:
+          x: 0
+          y: 0
+        positionAbsolute:
+          x: 0
+          y: 0
+        selected: false
+        sourcePosition: "right"
+        targetPosition: "left"
+        type: "custom"
+        width: 244
+      - data:
+          code: |
+            def main(business_name: str, city: str) -> dict:
+                query = f"{business_name} {city} marketing competitors trends"
+                return {"search_query": query}
+          code_language: "python3"
+          desc: "Ace Search Engine ke liye reusable query build karta hai."
+          outputs:
+            search_query:
+              children: null
+              type: "string"
+          selected: false
+          title: "Build Search Query"
+          type: "code"
+          variables:
+            - value_selector:
+                - "start_node"
+                - "business_name"
+              variable: "business_name"
+            - value_selector:
+                - "start_node"
+                - "city"
+              variable: "city"
+          x-outputs:
+            - name: "search_query"
+              type: "string"
+        height: 54
+        id: "search_query_node"
+        position:
+          x: 300
+          y: 0
+        positionAbsolute:
+          x: 300
+          y: 0
+        selected: false
+        sourcePosition: "right"
+        targetPosition: "left"
+        type: "custom"
+        width: 244
+      - id: "brief_generator_node"
+        type: "custom"
+        position:
+          x: 620
+          y: 0
+        positionAbsolute:
+          x: 620
+          y: 0
+        width: 244
+        height: 118
+        sourcePosition: "right"
+        targetPosition: "left"
+        selected: false
+        data:
+          type: "llm"
+          title: "Brief Generator"
+          desc: "Local business campaign ke liye structured marketing brief banata hai."
+          context:
+            enabled: false
+            variable_selector: []
+          model:
+            completion_params:
+              temperature: 0.3
+            mode: "chat"
+            name: "gpt-4o-mini"
+            provider: "langgenius/openai/openai"
+          prompt_template:
+            - id: "brief_system"
+              role: "system"
+              text: |
+                You are a campaign strategist for a local business marketing product.
+                Return valid JSON only.
+                Required JSON shape:
+                {
+                  "target_audience": "",
+                  "campaign_theme": "",
+                  "tone": "",
+                  "hooks": ["", "", ""],
+                  "keywords": ["", "", "", "", "", ""],
+                  "local_angle": ""
+                }
+            - id: "brief_user"
+              role: "user"
+              text: |
+                Business: {{#start_node.business_name#}}
+                Offer: {{#start_node.offer_details#}}
+                City: {{#start_node.city#}}
+                Link: {{#start_node.link#}}
+                Visual style: {{#start_node.visual_style#}}
+                Suggested search query: {{#search_query_node.search_query#}}
+          selected: false
+          variables: []
+          vision:
+            enabled: false
+          x-outputs:
+            - name: "text"
+              type: "string"
+          x-io-contracts:
+            fixed_outputs:
+              - name: "text"
+                type: "string"
+      - id: "prompt_optimizer_node"
+        type: "custom"
+        position:
+          x: 940
+          y: 0
+        positionAbsolute:
+          x: 940
+          y: 0
+        width: 244
+        height: 118
+        sourcePosition: "right"
+        targetPosition: "left"
+        selected: false
+        data:
+          type: "llm"
+          title: "Prompt Optimizer"
+          desc: "Image, music, video prompts ke saath captions aur CTA banata hai."
+          context:
+            enabled: false
+            variable_selector: []
+          model:
+            completion_params:
+              temperature: 0.4
+            mode: "chat"
+            name: "gpt-4o-mini"
+            provider: "langgenius/openai/openai"
+          prompt_template:
+            - id: "prompt_optimizer_system"
+              role: "system"
+              text: |
+                You are generating campaign prompts for a local business campaign system.
+                Return valid JSON only.
+                Required JSON shape:
+                {
+                  "search_query": "",
+                  "image_prompts": ["", "", ""],
+                  "music_prompt": "",
+                  "video_prompt": "",
+                  "qr_prompt": "",
+                  "captions": ["", "", ""],
+                  "cta": ""
+                }
+            - id: "prompt_optimizer_user"
+              role: "user"
+              text: |
+                Business: {{#start_node.business_name#}}
+                Offer: {{#start_node.offer_details#}}
+                City: {{#start_node.city#}}
+                Link: {{#start_node.link#}}
+                Visual style: {{#start_node.visual_style#}}
+                Search query: {{#search_query_node.search_query#}}
+                Brief JSON:
+                {{#brief_generator_node.text#}}
+
+                Rules:
+                - image prompt 1 = offer focused
+                - image prompt 2 = emotional/community angle
+                - image prompt 3 = minimal branding/clean layout
+                - music prompt = short jingle direction
+                - video prompt = short vertical ad direction
+                - qr prompt = optional branded QR style prompt
+          selected: false
+          variables: []
+          vision:
+            enabled: false
+          x-outputs:
+            - name: "text"
+              type: "string"
+          x-io-contracts:
+            fixed_outputs:
+              - name: "text"
+                type: "string"
+      - id: "publisher_node"
+        type: "custom"
+        position:
+          x: 1260
+          y: 0
+        positionAbsolute:
+          x: 1260
+          y: 0
+        width: 244
+        height: 118
+        sourcePosition: "right"
+        targetPosition: "left"
+        selected: false
+        data:
+          type: "llm"
+          title: "Publisher Draft"
+          desc: "X post draft, launch caption, hashtags aur short cost story banata hai."
+          context:
+            enabled: false
+            variable_selector: []
+          model:
+            completion_params:
+              temperature: 0.5
+            mode: "chat"
+            name: "gpt-4o-mini"
+            provider: "langgenius/openai/openai"
+          prompt_template:
+            - id: "publisher_system"
+              role: "system"
+              text: |
+                You are preparing a launch and submission draft for an Ace campaign entry.
+                Return valid JSON only.
+                Required JSON shape:
+                {
+                  "x_post": "",
+                  "launch_caption": "",
+                  "hashtags": ["#BuildWithAce", "#AceDataCloud"],
+                  "cost_story": ""
+                }
+            - id: "publisher_user"
+              role: "user"
+              text: |
+                Business: {{#start_node.business_name#}}
+                Offer: {{#start_node.offer_details#}}
+                City: {{#start_node.city#}}
+                Link: {{#start_node.link#}}
+                Prompt package JSON:
+                {{#prompt_optimizer_node.text#}}
+
+                Requirements:
+                - Mention this is a real local business campaign workflow
+                - Keep the X post concise
+                - Mention pay-as-you-go cost advantage
+                - Include Ace and Dify in the launch caption
+          selected: false
+          variables: []
+          vision:
+            enabled: false
+          x-outputs:
+            - name: "text"
+              type: "string"
+          x-io-contracts:
+            fixed_outputs:
+              - name: "text"
+                type: "string"
+      - data:
+          desc: "Workflow outputs for app integration."
+          outputs:
+            - value_selector:
+                - "brief_generator_node"
+                - "text"
+              variable: "brief"
+            - value_selector:
+                - "search_query_node"
+                - "search_query"
+              variable: "search_query"
+            - value_selector:
+                - "prompt_optimizer_node"
+                - "text"
+              variable: "prompts"
+            - value_selector:
+                - "publisher_node"
+                - "text"
+              variable: "publisher"
+          selected: false
+          title: "End"
+          type: "end"
+          x-outputs:
+            - name: "brief"
+              type: "string"
+            - name: "search_query"
+              type: "string"
+            - name: "prompts"
+              type: "string"
+            - name: "publisher"
+              type: "string"
+        height: 144
+        id: "end_node"
+        position:
+          x: 1580
+          y: 0
+        positionAbsolute:
+          x: 1580
+          y: 0
+        sourcePosition: "right"
+        targetPosition: "left"
+        type: "custom"
+        width: 244
+    viewport:
+      x: 0
+      y: 0
+      zoom: 0.7
