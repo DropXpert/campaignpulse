@@ -18,13 +18,9 @@ export function SiteHeader() {
           <small>Local Business Campaign OS</small>
         </span>
       </Link>
-      <nav className="nav-links" aria-label="Primary">
-        <Link href="/#product">Platform</Link>
-        <Link href="/#workflow">Process</Link>
-        <Link href="/campaign" className="nav-cta">
-          New Campaign
-        </Link>
-      </nav>
+      <Link href="/campaign" className="nav-cta">
+        New Campaign
+      </Link>
     </header>
   );
 }
