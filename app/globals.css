@@ -159,12 +159,13 @@ textarea {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 14px;
+  margin-left: auto;
 }
 
 .nav-links a {
-  padding: 9px 13px;
-  border-radius: 999px;
+  padding: 8px 10px;
+  border-radius: 10px;
   color: var(--text-muted);
   font-size: 0.88rem;
   font-weight: 700;
@@ -175,8 +176,16 @@ textarea {
   background: rgba(255, 255, 255, 0.05);
 }
 
-.nav-links .nav-cta {
-  margin-left: 6px;
+.nav-cta {
+  margin-left: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  white-space: nowrap;
   background: #e9fbf8;
   border: 1px solid transparent;
   color: #071018;
@@ -1134,53 +1143,53 @@ textarea {
 @media (max-width: 720px) {
   .page-shell {
     width: min(100% - 16px, 1180px);
-    padding-top: 10px;
+    padding-top: 8px;
   }
 
-  .site-header,
+  .site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 18px;
+  }
+
   .site-footer {
     flex-direction: column;
     align-items: stretch;
-    border-radius: 20px;
-    gap: 12px;
-  }
-
-  .nav-links {
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-  }
-
-  .nav-links a {
-    width: 100%;
-    text-align: center;
-    padding: 11px 12px;
-  }
-
-  .nav-links .nav-cta {
-    grid-column: 1 / -1;
-    margin-left: 0;
-  }
-
-  .brand-lockup {
-    width: 100%;
+    border-radius: 18px;
     gap: 10px;
   }
 
+  .brand-lockup {
+    min-width: 0;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .nav-cta {
+    margin-left: 0;
+    flex-shrink: 0;
+    padding: 8px 12px;
+    font-size: 0.78rem;
+  }
+
   .brand-logo-image {
-    width: 32px;
-    height: 32px;
-    flex: 0 0 32px;
+    width: 26px;
+    height: 26px;
+    flex: 0 0 26px;
   }
 
   .brand-text-lockup strong {
-    font-size: 0.9rem;
+    font-size: 0.82rem;
+    line-height: 1;
   }
 
   .brand-text-lockup small {
-    font-size: 0.66rem;
-    line-height: 1.1;
+    font-size: 0.58rem;
+    line-height: 1;
+    letter-spacing: 0;
   }
 
   .landing-hero-copy,
@@ -1289,6 +1298,31 @@ textarea {
   }
 }
 
+@media (max-width: 420px) {
+  .site-header {
+    padding: 9px 10px;
+  }
+
+  .brand-logo-image {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+  }
+
+  .brand-text-lockup strong {
+    font-size: 0.78rem;
+  }
+
+  .brand-text-lockup small {
+    font-size: 0.54rem;
+  }
+
+  .nav-cta {
+    padding: 7px 11px;
+    font-size: 0.74rem;
+  }
+}
+
 /* Minimal product theme */
 body {
   background: #fbfcfd;
@@ -1319,7 +1353,7 @@ body {
   background: #f3f6f8;
 }
 
-.nav-links .nav-cta {
+.nav-cta {
   background: #14c98b;
   color: #06130e;
 }
