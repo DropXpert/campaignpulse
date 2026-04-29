@@ -1,4 +1,4 @@
-import { appConfig, hasX402Config } from "@/lib/config";
+import { appConfig, hasX402BootstrapConfig } from "@/lib/config";
 
 export interface X402PaymentRequirement {
   scheme: string;
@@ -11,14 +11,16 @@ export interface X402PaymentRequirement {
 
 export interface X402PaymentBootstrapResponse {
   error?: string;
+  detail?: string;
+  message?: string;
   accepts?: X402PaymentRequirement[];
   paywall?: Record<string, unknown>;
 }
 
 export async function requestX402PaymentRequirement() {
-  if (!hasX402Config()) {
+  if (!hasX402BootstrapConfig()) {
     throw new Error(
-      "x402 config is incomplete. Add ACE_PLATFORM_TOKEN, ACE_X402_ORDER_ID, and ACE_X402_PRIVATE_KEY."
+      "x402 config is incomplete. Add ACE_PLATFORM_TOKEN and ACE_X402_ORDER_ID."
     );
   }
 

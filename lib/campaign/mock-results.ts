@@ -1,4 +1,5 @@
 import { buildCostBreakdown } from "@/lib/campaign/costs";
+import { buildIntegrationProof } from "@/lib/campaign/integration-proof";
 import { generateMockAceAssets } from "@/lib/ace/mock";
 import { buildMockWorkflowOutput } from "@/lib/dify/mock";
 import type { CampaignInput, CampaignMode, CampaignResult } from "@/types/campaign";
@@ -26,7 +27,8 @@ export function createMockCampaignResult(
         xPost: `${input.businessName} just launched a faster way to convert local demand in ${input.city}. ${workflowOutput.cta}`,
         hashtags: ["#BuildWithAce", "#AceDataCloud", "#LocalMarketing"],
         launchCaption: `Campaign pack ready for ${input.businessName}. Posters, QR, jingle, and promo reel aligned around ${input.offerDetails}.`
-      }
+      },
+      integrationProof: buildIntegrationProof("mock")
     },
     workflow: {
       provider: "mock",

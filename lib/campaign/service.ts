@@ -1,4 +1,5 @@
 import { buildCostBreakdown } from "@/lib/campaign/costs";
+import { buildIntegrationProof } from "@/lib/campaign/integration-proof";
 import { buildLiveAceAssets, hasRemoteAceAsset } from "@/lib/ace/live";
 import { generateMockAceAssets } from "@/lib/ace/mock";
 import { appConfig, hasAceConfig, hasDifyConfig } from "@/lib/config";
@@ -38,7 +39,8 @@ export async function createCampaign(input: unknown): Promise<CampaignResult> {
     cta: workflow.cta,
     costBreakdown: buildCostBreakdown(),
     prompts: workflow.prompts,
-    publisherDraft: workflow.publisherDraft
+    publisherDraft: workflow.publisherDraft,
+    integrationProof: buildIntegrationProof(workflowProvider)
   };
 
   if (hasAceConfig()) {
@@ -79,7 +81,8 @@ export async function createCampaign(input: unknown): Promise<CampaignResult> {
       brief: workflow.brief,
       output: {
         ...assets,
-        ...baseOutput
+        ...baseOutput,
+        integrationProof: buildIntegrationProof(workflowProvider)
       },
       workflow: {
         provider: workflowProvider,

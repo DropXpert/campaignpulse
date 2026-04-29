@@ -232,6 +232,21 @@ export function ResultsShell() {
         </div>
       </section>
 
+      <section className="report-section proof-section">
+        <div className="report-section-head">
+          <p className="eyebrow">Build Proof</p>
+          <h2>Ace + Dify stack</h2>
+        </div>
+        <div className="proof-grid">
+          {Object.entries(data.output.integrationProof).map(([key, value]) => (
+            <div key={key} className="proof-item">
+              <span>{key.replace(/([A-Z])/g, " $1")}</span>
+              <strong>{value}</strong>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <CostCard costs={data.output.costBreakdown} />
     </section>
   );

@@ -1,4 +1,5 @@
 import { buildCostBreakdown } from "@/lib/campaign/costs";
+import { buildIntegrationProof } from "@/lib/campaign/integration-proof";
 import { generateMockAceAssets } from "@/lib/ace/mock";
 import type {
   CampaignBrief,
@@ -224,7 +225,8 @@ export function mapDifyWorkflowToCampaignResult(
       cta: normalized.cta,
       costBreakdown: buildCostBreakdown(),
       prompts: normalized.prompts,
-      publisherDraft: normalized.publisherDraft
+      publisherDraft: normalized.publisherDraft,
+      integrationProof: buildIntegrationProof("dify")
     },
     workflow: {
       provider: "dify",

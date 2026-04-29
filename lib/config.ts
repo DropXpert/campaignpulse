@@ -36,7 +36,13 @@ export const appConfig = {
       music: process.env.ACE_MUSIC_ENDPOINT || "/v1/music/generate",
       video: process.env.ACE_VIDEO_ENDPOINT || "/v1/video/generate",
       search: process.env.ACE_SEARCH_ENDPOINT || "/v1/search/trends"
-    }
+    },
+    models: {
+      image: process.env.ACE_IMAGE_MODEL || "nano-banana-2",
+      music: process.env.ACE_MUSIC_MODEL || "chirp-v3-5",
+      video: process.env.ACE_VIDEO_MODEL || "doubao-seedance-1-0-pro-250528"
+    },
+    difyModelLabel: process.env.DIFY_MODEL_LABEL || "GPT-5.5 via Dify"
   },
   dify: {
     baseUrl: process.env.DIFY_API_BASE_URL || "",
@@ -69,4 +75,8 @@ export function hasX402Config() {
   return Boolean(
     appConfig.ace.platformToken && appConfig.x402.orderId && appConfig.x402.privateKey
   );
+}
+
+export function hasX402BootstrapConfig() {
+  return Boolean(appConfig.ace.platformToken && appConfig.x402.orderId);
 }

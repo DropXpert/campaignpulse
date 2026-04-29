@@ -10,7 +10,8 @@ CampaignPulse turns one local business offer into a campaign board with poster d
 - Uses Dify for campaign strategy, copy, and prompt orchestration
 - Uses Ace Data Cloud adapters for image, music, video, and search-ready outputs
 - Generates a real scannable QR destination
-- Shows a cost comparison with x402 and $ACE discount modeling
+- Shows x402 credit flow, cost comparison, and $ACE discount modeling
+- Displays the active Ace/Dify model stack on each generated campaign board
 - Falls back gracefully if a provider is unavailable or credits are exhausted
 
 ## Tech Stack
@@ -45,8 +46,10 @@ Do not commit `.env.local`.
 
 - `/` - product landing page
 - `/campaign` - campaign brief builder
+- `/billing` - x402 payment path and credit flow
 - `/results` - generated campaign board
 - `/api/campaign` - campaign generation endpoint
+- `/api/x402/requirements` - server-side x402 payment requirement bootstrap
 
 ## Deployment
 

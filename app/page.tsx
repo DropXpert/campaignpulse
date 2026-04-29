@@ -35,6 +35,13 @@ const useCases = [
   "Local event promotions"
 ];
 
+const stack = [
+  "Ace GPT planning",
+  "Dify workflow",
+  "Ace media adapters",
+  "x402 credit path"
+];
+
 export default function HomePage() {
   return (
     <main className="page-shell">
@@ -52,9 +59,9 @@ export default function HomePage() {
             <Link href="/campaign" className="button button-primary">
               Create Campaign
             </Link>
-            <a href="#workflow" className="button button-secondary">
-              See Workflow
-            </a>
+            <Link href="/billing" className="button button-secondary">
+              x402 Flow
+            </Link>
           </div>
         </div>
 
@@ -92,7 +99,7 @@ export default function HomePage() {
       <section id="product" className="landing-section">
         <div className="section-kicker">
           <p className="eyebrow">Product</p>
-          <h2>One brief. One campaign board.</h2>
+          <h2>One brief. One board.</h2>
         </div>
         <div className="product-grid">
           <div className="product-card product-card-large">
@@ -111,6 +118,12 @@ export default function HomePage() {
             <p>Prepared for image, audio, video, and search outputs.</p>
           </div>
         </div>
+      </section>
+
+      <section className="landing-section stack-strip" aria-label="CampaignPulse stack">
+        {stack.map((item) => (
+          <span key={item}>{item}</span>
+        ))}
       </section>
 
       <section id="workflow" className="landing-section">

@@ -68,6 +68,15 @@ export interface CampaignPublisherDraft {
   launchCaption: string;
 }
 
+export interface CampaignIntegrationProof {
+  planner: string;
+  imageModel: string;
+  musicModel: string;
+  videoModel: string;
+  qr: string;
+  payment: string;
+}
+
 export interface CampaignOutput {
   images: CampaignImageAsset[];
   qrCode: CampaignQrAsset;
@@ -78,6 +87,7 @@ export interface CampaignOutput {
   costBreakdown: CostBreakdown;
   prompts: CampaignPrompts;
   publisherDraft: CampaignPublisherDraft;
+  integrationProof: CampaignIntegrationProof;
 }
 
 export type CampaignMode = "live" | "mock" | "mock-fallback";

@@ -114,6 +114,7 @@ async function callAce<T>(
 export async function generateImage(prompt: string) {
   const cacheKey = JSON.stringify({
     endpoint: appConfig.ace.endpoints.images,
+    model: appConfig.ace.models.image,
     prompt
   });
   const cached = await readAceCache<{ imageUrl: string }>("images", cacheKey);
@@ -126,7 +127,7 @@ export async function generateImage(prompt: string) {
     action: "generate",
     prompt,
     count: 1,
-    model: "nano-banana-2",
+    model: appConfig.ace.models.image,
     aspect_ratio: "3:4"
   });
 
@@ -148,6 +149,7 @@ export async function generateImage(prompt: string) {
 export async function generateMusic(prompt: string, title: string) {
   const cacheKey = JSON.stringify({
     endpoint: appConfig.ace.endpoints.music,
+    model: appConfig.ace.models.music,
     prompt,
     title
   });
@@ -168,7 +170,7 @@ export async function generateMusic(prompt: string, title: string) {
     title,
     custom: false,
     instrumental: false,
-    model: "chirp-v3-5"
+    model: appConfig.ace.models.music
   });
 
   const track = response.data?.find((item) => readString(item.audio_url)) || response.data?.[0];
@@ -199,6 +201,7 @@ async function retrieveSeedanceTask(taskId: string) {
 export async function generateVideo(prompt: string, imageUrl?: string) {
   const cacheKey = JSON.stringify({
     endpoint: appConfig.ace.endpoints.video,
+    model: appConfig.ace.models.video,
     prompt,
     imageUrl: imageUrl || ""
   });
@@ -229,7 +232,7 @@ export async function generateVideo(prompt: string, imageUrl?: string) {
   });
 
   const response = await callAce<AceVideoResponse>("video", appConfig.ace.endpoints.video, {
-    model: "doubao-seedance-1-0-pro-250528",
+    model: appConfig.ace.models.video,
     content,
     ratio: "9:16",
     resolution: "720p",

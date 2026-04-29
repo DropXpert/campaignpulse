@@ -1,4 +1,9 @@
-import { appConfig, hasAceConfig, hasDifyConfig, hasX402Config } from "@/lib/config";
+import {
+  appConfig,
+  hasAceConfig,
+  hasDifyConfig,
+  hasX402Config
+} from "@/lib/config";
 
 export interface SetupStep {
   id: string;
